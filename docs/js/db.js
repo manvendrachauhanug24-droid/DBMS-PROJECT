@@ -1,5 +1,5 @@
 // ================================================================
-// NSUT IT Attendance Portal — Client-Side JavaScript Database
+// NSUT ICE Attendance Portal — Client-Side JavaScript Database
 // Simulates SQL operations (SELECT, INSERT, DELETE, JOIN, GROUP BY)
 // using localStorage as persistent storage (mirrors SQLite backend)
 // ================================================================
@@ -10,26 +10,26 @@ const DB = {
   // MOCK DATA  (mirrors database.sql)
   // ─────────────────────────────────────────────────────────────
   MOCK_STUDENTS: [
-    { student_id:  1, roll_number: '2021IT001', name: 'Aarav Sharma',    email: 'aarav.sharma@nsut.ac.in',    password: 'pass001' },
-    { student_id:  2, roll_number: '2021IT002', name: 'Vivaan Gupta',    email: 'vivaan.gupta@nsut.ac.in',    password: 'pass002' },
-    { student_id:  3, roll_number: '2021IT003', name: 'Aditya Kumar',    email: 'aditya.kumar@nsut.ac.in',    password: 'pass003' },
-    { student_id:  4, roll_number: '2021IT004', name: 'Arjun Shah',      email: 'arjun.shah@nsut.ac.in',      password: 'pass004' },
-    { student_id:  5, roll_number: '2021IT005', name: 'Sai Patel',       email: 'sai.patel@nsut.ac.in',       password: 'pass005' },
-    { student_id:  6, roll_number: '2021IT006', name: 'Reyansh Mehta',   email: 'reyansh.mehta@nsut.ac.in',   password: 'pass006' },
-    { student_id:  7, roll_number: '2021IT007', name: 'Ayaan Khan',      email: 'ayaan.khan@nsut.ac.in',      password: 'pass007' },
-    { student_id:  8, roll_number: '2021IT008', name: 'Krishna Nair',    email: 'krishna.nair@nsut.ac.in',    password: 'pass008' },
-    { student_id:  9, roll_number: '2021IT009', name: 'Ishaan Joshi',    email: 'ishaan.joshi@nsut.ac.in',    password: 'pass009' },
-    { student_id: 10, roll_number: '2021IT010', name: 'Shaurya Verma',   email: 'shaurya.verma@nsut.ac.in',   password: 'pass010' },
-    { student_id: 11, roll_number: '2021IT011', name: 'Ananya Singh',    email: 'ananya.singh@nsut.ac.in',    password: 'pass011' },
-    { student_id: 12, roll_number: '2021IT012', name: 'Diya Tiwari',     email: 'diya.tiwari@nsut.ac.in',     password: 'pass012' },
-    { student_id: 13, roll_number: '2021IT013', name: 'Saanvi Reddy',    email: 'saanvi.reddy@nsut.ac.in',    password: 'pass013' },
-    { student_id: 14, roll_number: '2021IT014', name: 'Priya Iyer',      email: 'priya.iyer@nsut.ac.in',      password: 'pass014' },
-    { student_id: 15, roll_number: '2021IT015', name: 'Riya Jain',       email: 'riya.jain@nsut.ac.in',       password: 'pass015' },
-    { student_id: 16, roll_number: '2021IT016', name: 'Kavya Pillai',    email: 'kavya.pillai@nsut.ac.in',    password: 'pass016' },
-    { student_id: 17, roll_number: '2021IT017', name: 'Pooja Desai',     email: 'pooja.desai@nsut.ac.in',     password: 'pass017' },
-    { student_id: 18, roll_number: '2021IT018', name: 'Anushka Pandey',  email: 'anushka.pandey@nsut.ac.in',  password: 'pass018' },
-    { student_id: 19, roll_number: '2021IT019', name: 'Aisha Beg',       email: 'aisha.beg@nsut.ac.in',       password: 'pass019' },
-    { student_id: 20, roll_number: '2021IT020', name: 'Isha Bhatia',     email: 'isha.bhatia@nsut.ac.in',     password: 'pass020' },
+    { student_id:  1, roll_number: '2024UIC001', name: 'Aarav Sharma',    email: 'aarav.sharma@nsut.ac.in',    password: 'pass001' },
+    { student_id:  2, roll_number: '2024UIC002', name: 'Vivaan Gupta',    email: 'vivaan.gupta@nsut.ac.in',    password: 'pass002' },
+    { student_id:  3, roll_number: '2024UIC003', name: 'Aditya Kumar',    email: 'aditya.kumar@nsut.ac.in',    password: 'pass003' },
+    { student_id:  4, roll_number: '2024UIC004', name: 'Arjun Shah',      email: 'arjun.shah@nsut.ac.in',      password: 'pass004' },
+    { student_id:  5, roll_number: '2024UIC005', name: 'Sai Patel',       email: 'sai.patel@nsut.ac.in',       password: 'pass005' },
+    { student_id:  6, roll_number: '2024UIC006', name: 'Reyansh Mehta',   email: 'reyansh.mehta@nsut.ac.in',   password: 'pass006' },
+    { student_id:  7, roll_number: '2024UIC007', name: 'Ayaan Khan',      email: 'ayaan.khan@nsut.ac.in',      password: 'pass007' },
+    { student_id:  8, roll_number: '2024UIC008', name: 'Krishna Nair',    email: 'krishna.nair@nsut.ac.in',    password: 'pass008' },
+    { student_id:  9, roll_number: '2024UIC009', name: 'Ishaan Joshi',    email: 'ishaan.joshi@nsut.ac.in',    password: 'pass009' },
+    { student_id: 10, roll_number: '2024UIC010', name: 'Shaurya Verma',   email: 'shaurya.verma@nsut.ac.in',   password: 'pass010' },
+    { student_id: 11, roll_number: '2024UIC011', name: 'Ananya Singh',    email: 'ananya.singh@nsut.ac.in',    password: 'pass011' },
+    { student_id: 12, roll_number: '2024UIC012', name: 'Diya Tiwari',     email: 'diya.tiwari@nsut.ac.in',     password: 'pass012' },
+    { student_id: 13, roll_number: '2024UIC013', name: 'Saanvi Reddy',    email: 'saanvi.reddy@nsut.ac.in',    password: 'pass013' },
+    { student_id: 14, roll_number: '2024UIC014', name: 'Priya Iyer',      email: 'priya.iyer@nsut.ac.in',      password: 'pass014' },
+    { student_id: 15, roll_number: '2024UIC015', name: 'Riya Jain',       email: 'riya.jain@nsut.ac.in',       password: 'pass015' },
+    { student_id: 16, roll_number: '2024UIC016', name: 'Kavya Pillai',    email: 'kavya.pillai@nsut.ac.in',    password: 'pass016' },
+    { student_id: 17, roll_number: '2024UIC017', name: 'Pooja Desai',     email: 'pooja.desai@nsut.ac.in',     password: 'pass017' },
+    { student_id: 18, roll_number: '2024UIC018', name: 'Anushka Pandey',  email: 'anushka.pandey@nsut.ac.in',  password: 'pass018' },
+    { student_id: 19, roll_number: '2024UIC019', name: 'Aisha Beg',       email: 'aisha.beg@nsut.ac.in',       password: 'pass019' },
+    { student_id: 20, roll_number: '2024UIC020', name: 'Isha Bhatia',     email: 'isha.bhatia@nsut.ac.in',     password: 'pass020' },
   ],
 
   MOCK_TEACHERS: [
@@ -41,11 +41,11 @@ const DB = {
   ],
 
   MOCK_SUBJECTS: [
-    { subject_id: 1, subject_code: 'IT301', subject_name: 'Database Management Systems', semester: 5, credits: 4 },
-    { subject_id: 2, subject_code: 'IT302', subject_name: 'Operating Systems',            semester: 5, credits: 4 },
-    { subject_id: 3, subject_code: 'IT303', subject_name: 'Computer Networks',            semester: 5, credits: 3 },
-    { subject_id: 4, subject_code: 'IT304', subject_name: 'Software Engineering',         semester: 5, credits: 3 },
-    { subject_id: 5, subject_code: 'IT305', subject_name: 'Web Technologies',             semester: 5, credits: 3 },
+    { subject_id: 1, subject_code: 'UIC301', subject_name: 'Instrumentation & Measurement',        semester: 5, credits: 4 },
+    { subject_id: 2, subject_code: 'UIC302', subject_name: 'Control Systems',                       semester: 5, credits: 4 },
+    { subject_id: 3, subject_code: 'UIC303', subject_name: 'Digital Signal Processing',             semester: 5, credits: 3 },
+    { subject_id: 4, subject_code: 'UIC304', subject_name: 'Microcontrollers & Embedded Systems',   semester: 5, credits: 3 },
+    { subject_id: 5, subject_code: 'UIC305', subject_name: 'Communication Systems',                 semester: 5, credits: 3 },
   ],
 
   MOCK_MAPPING: [
@@ -83,7 +83,16 @@ const DB = {
   // ─────────────────────────────────────────────────────────────
   // INITIALISE DATABASE (seed mock data)
   // ─────────────────────────────────────────────────────────────
+  // DB version — bump this to force a reset when data changes
+  DB_VERSION: 'v2-ICE',
+
   init() {
+    // Force reset if DB version changed (e.g. IT → ICE migration)
+    if (localStorage.getItem('nsut_db_initialized') &&
+        localStorage.getItem('nsut_db_version') !== this.DB_VERSION) {
+      this.reset();
+      return;
+    }
     if (localStorage.getItem('nsut_db_initialized')) return;
 
     this._save('students', this.MOCK_STUDENTS);
@@ -123,11 +132,13 @@ const DB = {
 
     this._save('attendance', attendance);
     localStorage.setItem('nsut_db_initialized', '1');
+    localStorage.setItem('nsut_db_version', this.DB_VERSION);
     console.log(`[DB] Initialized with ${attendance.length} attendance records`);
   },
 
   reset() {
     localStorage.removeItem('nsut_db_initialized');
+    localStorage.removeItem('nsut_db_version');
     ['students','teachers','subjects','mapping','attendance'].forEach(t => localStorage.removeItem('nsut_' + t));
     this.init();
   },

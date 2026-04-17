@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NSUT IT Attendance Portal — Login</title>
-  <meta name="description" content="NSUT IT Branch Attendance Management System — Student and Teacher login portal">
+  <title>NSUT ICE Attendance Portal — Login</title>
+  <meta name="description" content="NSUT ICE Branch Attendance Management System — Student and Teacher login portal">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -167,7 +167,7 @@
     <div class="card login-card">
       <div class="card-header">
         <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
-        <h3>NSUT IT Branch</h3>
+        <h3>NSUT ICE Branch</h3>
         <p>Attendance Management Portal</p>
       </div>
 
@@ -208,7 +208,7 @@
             <div class="mb-1"><strong>Demo Credentials — Student</strong></div>
             <div id="demoCredentials">
               <i class="fas fa-user me-1"></i>aarav.sharma@nsut.ac.in / pass001<br>
-              <small class="opacity-75">Roll No: 2021IT001–2021IT020 | pass001–pass020</small>
+              <small class="opacity-75">Roll No: 2024UIC001–2024UIC020 | pass001–pass020</small>
             </div>
           </div>
 
@@ -245,7 +245,7 @@
           ? `<i class="fas fa-chalkboard-teacher me-1"></i>rajesh.kumar@nsut.ac.in / teacher001<br>
              <small class="opacity-75">5 teacher accounts: teacher001–teacher005</small>`
           : `<i class="fas fa-user me-1"></i>aarav.sharma@nsut.ac.in / pass001<br>
-             <small class="opacity-75">Roll No: 2021IT001–2021IT020 | pass001–pass020</small>`;
+             <small class="opacity-75">Roll No: 2024UIC001–2024UIC020 | pass001–pass020</small>`;
         document.querySelector('.demo-box strong').textContent =
           'Demo Credentials — ' + (isTeacher ? 'Teacher' : 'Student');
       });
