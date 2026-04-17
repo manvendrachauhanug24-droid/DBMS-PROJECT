@@ -1,4 +1,4 @@
-# NSUT IT Branch - Teacher Attendance Portal (SQLite)
+# NSUT ICE Branch - Teacher Attendance Portal (SQLite)
 
 A lightweight, Bootstrap-based attendance management system for demonstrating SQL operations using SQLite database.
 
@@ -159,11 +159,11 @@ All students follow the pattern:
 
 | Roll Number | Name | Email | Password |
 |-------------|------|-------|----------|
-| 2021IT001 | Aarav Sharma | aarav.sharma@nsut.ac.in | pass001 |
-| 2021IT002 | Vivaan Gupta | vivaan.gupta@nsut.ac.in | pass002 |
-| 2021IT003 | Aditya Kumar | aditya.kumar@nsut.ac.in | pass003 |
+| 2024UIC001 | Aarav Sharma | aarav.sharma@nsut.ac.in | pass001 |
+| 2024UIC002 | Vivaan Gupta | vivaan.gupta@nsut.ac.in | pass002 |
+| 2024UIC003 | Aditya Kumar | aditya.kumar@nsut.ac.in | pass003 |
 | ... | ... | ... | ... |
-| 2021IT020 | Isha Bhatia | isha.bhatia@nsut.ac.in | pass020 |
+| 2024UIC020 | Isha Bhatia | isha.bhatia@nsut.ac.in | pass020 |
 
 *Full list available in `database.sql`*
 
@@ -171,11 +171,11 @@ All students follow the pattern:
 
 | Subject Code | Subject Name | Teacher | Semester |
 |--------------|--------------|---------|----------|
-| IT301 | Database Management Systems | Dr. Rajesh Kumar | 5 |
-| IT302 | Operating Systems | Dr. Priya Sharma | 5 |
-| IT303 | Computer Networks | Dr. Amit Verma | 5 |
-| IT304 | Software Engineering | Dr. Sunita Rao | 5 |
-| IT305 | Web Technologies | Dr. Vikram Singh | 5 |
+| UIC301 | Instrumentation & Measurement | Dr. Rajesh Kumar | 5 |
+| UIC302 | Control Systems | Dr. Priya Sharma | 5 |
+| UIC303 | Digital Signal Processing | Dr. Amit Verma | 5 |
+| UIC304 | Microcontrollers & Embedded Systems | Dr. Sunita Rao | 5 |
+| UIC305 | Communication Systems | Dr. Vikram Singh | 5 |
 
 ## Usage Guide
 
@@ -214,7 +214,7 @@ sqlite3 nsut_attendance.db "SELECT COUNT(*) FROM students;"
 
 # View first student
 sqlite3 nsut_attendance.db "SELECT roll_number, name FROM students LIMIT 1;"
-# Should return: 2021IT001|Aarav Sharma
+# Should return: 2024UIC001|Aarav Sharma
 ```
 
 ## SQL Query Examples
@@ -453,7 +453,7 @@ This project is created for educational purposes as a SQL demonstration project.
 
 ## Author
 
-Created for NSUT IT Branch SQL Project Demonstration
+Created for NSUT ICE Branch SQL Project Demonstration
 
 ---
 

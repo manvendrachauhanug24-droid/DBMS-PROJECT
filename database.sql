@@ -1,5 +1,5 @@
 -- ===============================================
--- NSUT IT Branch Attendance Portal Database
+-- NSUT ICE Branch Attendance Portal Database
 -- SQL Demo Project - SQLite Version
 -- ===============================================
 
@@ -21,7 +21,7 @@ CREATE TABLE students (
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    branch TEXT DEFAULT 'IT',
+    branch TEXT DEFAULT 'ICE',
     semester INTEGER DEFAULT 1,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -35,7 +35,7 @@ CREATE TABLE teachers (
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    department TEXT DEFAULT 'IT',
+    department TEXT DEFAULT 'ICE',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -90,66 +90,66 @@ CREATE TABLE attendance (
 -- Inserting 20 mock students
 -- ===============================================
 INSERT INTO students (roll_number, name, email, password, semester) VALUES
-('2021IT001', 'Aarav Sharma', 'aarav.sharma@nsut.ac.in', 'pass001', 5),
-('2021IT002', 'Vivaan Gupta', 'vivaan.gupta@nsut.ac.in', 'pass002', 5),
-('2021IT003', 'Aditya Kumar', 'aditya.kumar@nsut.ac.in', 'pass003', 5),
-('2021IT004', 'Vihaan Singh', 'vihaan.singh@nsut.ac.in', 'pass004', 5),
-('2021IT005', 'Arjun Verma', 'arjun.verma@nsut.ac.in', 'pass005', 5),
-('2021IT006', 'Sai Reddy', 'sai.reddy@nsut.ac.in', 'pass006', 5),
-('2021IT007', 'Arnav Patel', 'arnav.patel@nsut.ac.in', 'pass007', 5),
-('2021IT008', 'Dhruv Yadav', 'dhruv.yadav@nsut.ac.in', 'pass008', 5),
-('2021IT009', 'Krishna Mehta', 'krishna.mehta@nsut.ac.in', 'pass009', 5),
-('2021IT010', 'Ayaan Joshi', 'ayaan.joshi@nsut.ac.in', 'pass010', 5),
-('2021IT011', 'Reyansh Agarwal', 'reyansh.agarwal@nsut.ac.in', 'pass011', 5),
-('2021IT012', 'Ishaan Pandey', 'ishaan.pandey@nsut.ac.in', 'pass012', 5),
-('2021IT013', 'Shaurya Saxena', 'shaurya.saxena@nsut.ac.in', 'pass013', 5),
-('2021IT014', 'Atharv Mishra', 'atharv.mishra@nsut.ac.in', 'pass014', 5),
-('2021IT015', 'Advait Kapoor', 'advait.kapoor@nsut.ac.in', 'pass015', 5),
-('2021IT016', 'Priya Singh', 'priya.singh@nsut.ac.in', 'pass016', 5),
-('2021IT017', 'Ananya Chopra', 'ananya.chopra@nsut.ac.in', 'pass017', 5),
-('2021IT018', 'Diya Malhotra', 'diya.malhotra@nsut.ac.in', 'pass018', 5),
-('2021IT019', 'Sara Khan', 'sara.khan@nsut.ac.in', 'pass019', 5),
-('2021IT020', 'Isha Bhatia', 'isha.bhatia@nsut.ac.in', 'pass020', 5);
+('2024UIC001', 'Aarav Sharma', 'aarav.sharma@nsut.ac.in', 'pass001', 5),
+('2024UIC002', 'Vivaan Gupta', 'vivaan.gupta@nsut.ac.in', 'pass002', 5),
+('2024UIC003', 'Aditya Kumar', 'aditya.kumar@nsut.ac.in', 'pass003', 5),
+('2024UIC004', 'Vihaan Singh', 'vihaan.singh@nsut.ac.in', 'pass004', 5),
+('2024UIC005', 'Arjun Verma', 'arjun.verma@nsut.ac.in', 'pass005', 5),
+('2024UIC006', 'Sai Reddy', 'sai.reddy@nsut.ac.in', 'pass006', 5),
+('2024UIC007', 'Arnav Patel', 'arnav.patel@nsut.ac.in', 'pass007', 5),
+('2024UIC008', 'Dhruv Yadav', 'dhruv.yadav@nsut.ac.in', 'pass008', 5),
+('2024UIC009', 'Krishna Mehta', 'krishna.mehta@nsut.ac.in', 'pass009', 5),
+('2024UIC010', 'Ayaan Joshi', 'ayaan.joshi@nsut.ac.in', 'pass010', 5),
+('2024UIC011', 'Reyansh Agarwal', 'reyansh.agarwal@nsut.ac.in', 'pass011', 5),
+('2024UIC012', 'Ishaan Pandey', 'ishaan.pandey@nsut.ac.in', 'pass012', 5),
+('2024UIC013', 'Shaurya Saxena', 'shaurya.saxena@nsut.ac.in', 'pass013', 5),
+('2024UIC014', 'Atharv Mishra', 'atharv.mishra@nsut.ac.in', 'pass014', 5),
+('2024UIC015', 'Advait Kapoor', 'advait.kapoor@nsut.ac.in', 'pass015', 5),
+('2024UIC016', 'Priya Singh', 'priya.singh@nsut.ac.in', 'pass016', 5),
+('2024UIC017', 'Ananya Chopra', 'ananya.chopra@nsut.ac.in', 'pass017', 5),
+('2024UIC018', 'Diya Malhotra', 'diya.malhotra@nsut.ac.in', 'pass018', 5),
+('2024UIC019', 'Sara Khan', 'sara.khan@nsut.ac.in', 'pass019', 5),
+('2024UIC020', 'Isha Bhatia', 'isha.bhatia@nsut.ac.in', 'pass020', 5);
 
 -- ===============================================
 -- SQL DEMO 7: INSERT statements for teachers
 -- Inserting 5 mock teachers
 -- ===============================================
 INSERT INTO teachers (name, email, password, department) VALUES
-('Dr. Rajesh Kumar', 'rajesh.kumar@nsut.ac.in', 'teacher001', 'IT'),
-('Dr. Priya Sharma', 'priya.sharma@nsut.ac.in', 'teacher002', 'IT'),
-('Dr. Amit Verma', 'amit.verma@nsut.ac.in', 'teacher003', 'IT'),
-('Dr. Sunita Rao', 'sunita.rao@nsut.ac.in', 'teacher004', 'IT'),
-('Dr. Vikram Singh', 'vikram.singh@nsut.ac.in', 'teacher005', 'IT');
+('Dr. Rajesh Kumar', 'rajesh.kumar@nsut.ac.in', 'teacher001', 'ICE'),
+('Dr. Priya Sharma', 'priya.sharma@nsut.ac.in', 'teacher002', 'ICE'),
+('Dr. Amit Verma', 'amit.verma@nsut.ac.in', 'teacher003', 'ICE'),
+('Dr. Sunita Rao', 'sunita.rao@nsut.ac.in', 'teacher004', 'ICE'),
+('Dr. Vikram Singh', 'vikram.singh@nsut.ac.in', 'teacher005', 'ICE');
 
 -- ===============================================
 -- SQL DEMO 8: INSERT statements for subjects
 -- Inserting 5 mock subjects
 -- ===============================================
 INSERT INTO subjects (subject_code, subject_name, semester, credits) VALUES
-('IT301', 'Database Management Systems', 5, 4),
-('IT302', 'Operating Systems', 5, 4),
-('IT303', 'Computer Networks', 5, 4),
-('IT304', 'Software Engineering', 5, 3),
-('IT305', 'Web Technologies', 5, 3);
+('UIC301', 'Instrumentation & Measurement', 5, 4),
+('UIC302', 'Control Systems', 5, 4),
+('UIC303', 'Digital Signal Processing', 5, 4),
+('UIC304', 'Microcontrollers & Embedded Systems', 5, 3),
+('UIC305', 'Communication Systems', 5, 3);
 
 -- ===============================================
 -- SQL DEMO 9: INSERT with subqueries
 -- Mapping teachers to subjects
 -- ===============================================
 INSERT INTO subject_teacher_mapping (subject_id, teacher_id) VALUES
-((SELECT subject_id FROM subjects WHERE subject_code = 'IT301'), (SELECT teacher_id FROM teachers WHERE email = 'rajesh.kumar@nsut.ac.in')),
-((SELECT subject_id FROM subjects WHERE subject_code = 'IT302'), (SELECT teacher_id FROM teachers WHERE email = 'priya.sharma@nsut.ac.in')),
-((SELECT subject_id FROM subjects WHERE subject_code = 'IT303'), (SELECT teacher_id FROM teachers WHERE email = 'amit.verma@nsut.ac.in')),
-((SELECT subject_id FROM subjects WHERE subject_code = 'IT304'), (SELECT teacher_id FROM teachers WHERE email = 'sunita.rao@nsut.ac.in')),
-((SELECT subject_id FROM subjects WHERE subject_code = 'IT305'), (SELECT teacher_id FROM teachers WHERE email = 'vikram.singh@nsut.ac.in'));
+((SELECT subject_id FROM subjects WHERE subject_code = 'UIC301'), (SELECT teacher_id FROM teachers WHERE email = 'rajesh.kumar@nsut.ac.in')),
+((SELECT subject_id FROM subjects WHERE subject_code = 'UIC302'), (SELECT teacher_id FROM teachers WHERE email = 'priya.sharma@nsut.ac.in')),
+((SELECT subject_id FROM subjects WHERE subject_code = 'UIC303'), (SELECT teacher_id FROM teachers WHERE email = 'amit.verma@nsut.ac.in')),
+((SELECT subject_id FROM subjects WHERE subject_code = 'UIC304'), (SELECT teacher_id FROM teachers WHERE email = 'sunita.rao@nsut.ac.in')),
+((SELECT subject_id FROM subjects WHERE subject_code = 'UIC305'), (SELECT teacher_id FROM teachers WHERE email = 'vikram.singh@nsut.ac.in'));
 
 -- ===============================================
 -- SQL DEMO 10: INSERT sample attendance records
 -- Creating some sample attendance data for demo
 -- ===============================================
 INSERT INTO attendance (student_id, subject_id, teacher_id, date, status) VALUES
--- DBMS Attendance (Subject IT301)
+-- Instrumentation Attendance (Subject UIC301)
 (1, 1, 1, '2024-11-01', 'Present'),
 (2, 1, 1, '2024-11-01', 'Present'),
 (3, 1, 1, '2024-11-01', 'Absent'),
@@ -159,13 +159,13 @@ INSERT INTO attendance (student_id, subject_id, teacher_id, date, status) VALUES
 (2, 1, 1, '2024-11-04', 'Absent'),
 (3, 1, 1, '2024-11-04', 'Present'),
 
--- OS Attendance (Subject IT302)
+-- Control Systems Attendance (Subject UIC302)
 (1, 2, 2, '2024-11-02', 'Present'),
 (2, 2, 2, '2024-11-02', 'Present'),
 (3, 2, 2, '2024-11-02', 'Present'),
 (1, 2, 2, '2024-11-05', 'Absent'),
 
--- Networks Attendance (Subject IT303)
+-- DSP Attendance (Subject UIC303)
 (1, 3, 3, '2024-11-03', 'Present'),
 (2, 3, 3, '2024-11-03', 'Present'),
 (1, 3, 3, '2024-11-06', 'Present');
