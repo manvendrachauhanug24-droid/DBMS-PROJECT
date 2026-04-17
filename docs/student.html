@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard — NSUT IT Attendance Portal</title>
+  <meta name="description" content="Student attendance dashboard for NSUT IT Branch">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+
+    body { background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+    /* Navbar */
+    .navbar-custom {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border-bottom: 1px solid rgba(102,126,234,0.3);
+      padding: 14px 0;
+    }
+    .navbar-brand { font-weight: 700; color: #a5b4fc !important; font-size: 1.1rem; }
+    .user-info { color: rgba(255,255,255,0.85); font-size: 0.875rem; }
+    .btn-logout {
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.4);
+      color: #fca5a5; border-radius: 8px; font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { background: rgba(239,68,68,0.3); color: #fff; }
+
+    /* Stats cards */
+    .stats-row { padding: 24px 0 0; }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 22px; text-align: center;
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .stat-value { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+    .stat-label { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+    .stat-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; margin: 0 auto 12px;
+    }
+
+    /* Overall progress */
+    .overall-card {
+      background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15));
+      border: 1px solid rgba(102,126,234,0.3);
+      border-radius: 16px; padding: 28px;
+    }
+    .big-percent { font-size: 3.5rem; font-weight: 800; line-height: 1; }
+    .progress-custom { height: 12px; border-radius: 10px; background: rgba(255,255,255,0.1); }
+    .progress-bar { border-radius: 10px; transition: width 1s ease; }
+
+    /* Subject table */
+    .table-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; overflow: hidden;
+    }
+    .table-card .card-header {
+      background: rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 22px;
+      font-weight: 600; color: #e2e8f0;
+    }
+    .table { color: #cbd5e1; margin: 0; }
+    .table thead { background: rgba(102,126,234,0.15); }
+    .table thead th {
+      color: #a5b4fc; font-size: 0.78rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      border-color: rgba(255,255,255,0.08); padding: 14px 16px;
+    }
+    .table tbody td { border-color: rgba(255,255,255,0.06); padding: 14px 16px; font-size: 0.9rem; }
+    .table tbody tr { transition: background 0.2s; }
+    .table tbody tr:hover { background: rgba(255,255,255,0.04); }
+
+    .badge-code {
+      background: rgba(102,126,234,0.2);
+      color: #a5b4fc;
+      border: 1px solid rgba(102,126,234,0.3);
+      border-radius: 6px; padding: 3px 8px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+
+    .pct-good    { color: #34d399; font-weight: 700; }
+    .pct-warning { color: #fbbf24; font-weight: 700; }
+    .pct-danger  { color: #f87171; font-weight: 700; }
+
+    .mini-bar { height: 8px; border-radius: 6px; background: rgba(255,255,255,0.08); min-width: 100px; }
+    .mini-bar-fill { height: 100%; border-radius: 6px; transition: width 1.2s ease; }
+
+    /* SQL info */
+    .sql-info {
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 12px; padding: 16px 20px;
+      font-size: 0.82rem; color: #6ee7b7;
+    }
+    .sql-info strong { color: #34d399; }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px; height: 16px; margin: 6px 0;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fas fa-user-graduate me-2"></i>Student Portal</a>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <span class="user-info">
+          <i class="fas fa-circle text-success" style="font-size:8px;vertical-align:middle;"></i>
+          <span id="navName" class="ms-2"></span>
+          <span id="navRoll" class="ms-1 opacity-60"></span>
+        </span>
+        <button class="btn btn-logout btn-sm" onclick="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+    <!-- Overall Summary -->
+    <div class="overall-card mb-4">
+      <div class="row align-items-center">
+        <div class="col-md-3 text-center mb-3 mb-md-0">
+          <div class="big-percent" id="overallPct" style="color:#667eea">--%</div>
+          <div class="text-muted small mt-1">Overall Attendance</div>
+        </div>
+        <div class="col-md-5 mb-3 mb-md-0">
+          <div class="progress progress-custom mb-2">
+            <div id="overallBar" class="progress-bar bg-primary" style="width:0%"></div>
+          </div>
+          <div class="d-flex justify-content-between" style="font-size:0.75rem;color:#94a3b8;">
+            <span>0%</span><span>75% (Min. Required)</span><span>100%</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row g-2">
+            <div class="col-6">
+              <div class="stat-card">
+                <div class="stat-value text-success" id="totalPresent">--</div>
+                <div class="stat-label">Classes Attended</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="stat-card">
+                <div class="stat-value text-info" id="totalClasses">--</div>
+                <div class="stat-label">Total Classes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subject-wise table -->
+    <div class="table-card mb-4">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <span><i class="fas fa-book-open me-2" style="color:#667eea"></i>Subject-wise Attendance</span>
+        <span class="badge-code" style="font-size:0.7rem;">GROUP BY Query</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Subject</th>
+              <th class="text-center">Credits</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Present</th>
+              <th class="text-center">Absent</th>
+              <th class="text-center">%</th>
+              <th>Progress</th>
+              <th class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody id="subjectTable">
+            <tr><td colspan="9" class="text-center py-5">
+              <div class="skeleton" style="width:60%;margin:auto;"></div>
+              <div class="skeleton" style="width:40%;margin:8px auto;"></div>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SQL info -->
+    <div class="sql-info">
+      <strong><i class="fas fa-database me-2"></i>SQL Concepts Demonstrated on this page:</strong>
+      <ul class="mb-0 mt-2 ps-3">
+        <li><strong>GROUP BY</strong> — Aggregates attendance per subject per student</li>
+        <li><strong>COUNT(), SUM()</strong> — Total classes & classes attended</li>
+        <li><strong>CASE WHEN</strong> — Conditional counting of Present/Absent</li>
+        <li><strong>ROUND() with 100.0</strong> — Float division for percentage (SQLite-specific)</li>
+        <li><strong>LEFT JOIN</strong> — Includes subjects even if no attendance records exist</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    // Auth guard
+    const session = DB.getSession();
+    if (!session || session.user_type !== 'student') {
+      window.location.href = 'index.html';
+    }
+
+    document.getElementById('navName').textContent = session.user_name;
+    document.getElementById('navRoll').textContent = '(' + (session.roll_number || '') + ')';
+
+    function logout() {
+      DB.clearSession();
+      window.location.href = 'index.html';
+    }
+
+    // ═══════════════════════════════════════════════
+    // SQL DEMO: GROUP BY + Aggregate Functions
+    // ═══════════════════════════════════════════════
+    function loadAttendance() {
+      const data = DB.getStudentAttendance(session.user_id);
+      renderOverall(data.overall);
+      renderSubjects(data.subjects);
+    }
+
+    function renderOverall(o) {
+      const pct = parseFloat(o.overall_percentage) || 0;
+      const el  = document.getElementById('overallPct');
+
+      el.textContent = pct.toFixed(1) + '%';
+      el.style.color = pct >= 75 ? '#34d399' : pct >= 65 ? '#fbbf24' : '#f87171';
+
+      const bar = document.getElementById('overallBar');
+      bar.style.width = pct + '%';
+      bar.className = 'progress-bar ' + (pct >= 75 ? 'bg-success' : pct >= 65 ? 'bg-warning' : 'bg-danger');
+
+      document.getElementById('totalPresent').textContent = o.total_present || 0;
+      document.getElementById('totalClasses').textContent = o.total_classes || 0;
+    }
+
+    function renderSubjects(subjects) {
+      const tbody = document.getElementById('subjectTable');
+      if (!subjects.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4 text-muted">No attendance records found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = subjects.map(s => {
+        const pct     = parseFloat(s.attendance_percentage) || 0;
+        const pctClass = pct >= 75 ? 'pct-good' : pct >= 65 ? 'pct-warning' : 'pct-danger';
+        const barColor = pct >= 75 ? '#34d399' : pct >= 65 ? '#fbbf24' : '#f87171';
+        const status   = pct >= 75
+          ? '<span class="badge bg-success">Safe</span>'
+          : pct >= 65
+            ? '<span class="badge bg-warning text-dark">At Risk</span>'
+            : '<span class="badge bg-danger">Danger</span>';
+
+        return `<tr>
+          <td><span class="badge-code">${s.subject_code}</span></td>
+          <td>${s.subject_name}</td>
+          <td class="text-center">${s.credits}</td>
+          <td class="text-center">${s.total_classes || 0}</td>
+          <td class="text-center text-success fw-600">${s.classes_attended || 0}</td>
+          <td class="text-center text-danger">${s.classes_missed || 0}</td>
+          <td class="text-center"><span class="${pctClass}">${pct.toFixed(2)}%</span></td>
+          <td style="min-width:110px;">
+            <div class="mini-bar">
+              <div class="mini-bar-fill" style="width:${pct}%;background:${barColor};"></div>
+            </div>
+          </td>
+          <td class="text-center">${status}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    loadAttendance();
+  </script>
+</body>
+</html>

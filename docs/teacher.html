@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard — NSUT IT Attendance Portal</title>
+  <meta name="description" content="Teacher attendance marking dashboard for NSUT IT Branch">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+    body { background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+    .navbar-custom {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border-bottom: 1px solid rgba(102,126,234,0.3); padding: 14px 0;
+    }
+    .navbar-brand { font-weight: 700; color: #a5b4fc !important; }
+    .user-info    { color: rgba(255,255,255,0.85); font-size: 0.875rem; }
+    .btn-logout {
+      background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4);
+      color: #fca5a5; border-radius: 8px; font-size: 0.8rem; transition: all 0.2s;
+    }
+    .btn-logout:hover { background: rgba(239,68,68,0.3); color: #fff; }
+
+    /* Subject cards */
+    .subject-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px;
+      cursor: pointer; transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .subject-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transform: scaleX(0); transition: transform 0.3s;
+    }
+    .subject-card:hover {
+      background: rgba(102,126,234,0.1);
+      border-color: rgba(102,126,234,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    }
+    .subject-card:hover::before { transform: scaleX(1); }
+    .subject-card .code { color: #a5b4fc; font-weight: 700; font-size: 1.1rem; }
+    .subject-card .name { font-size: 0.95rem; color: #e2e8f0; margin: 6px 0; }
+    .subject-card .meta { font-size: 0.78rem; color: #64748b; }
+    .subject-card .arrow {
+      position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+      color: rgba(102,126,234,0.4); font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    .subject-card:hover .arrow { color: #667eea; transform: translateY(-50%) translateX(4px); }
+
+    /* Attendance section */
+    .section-header {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 20px 24px; margin-bottom: 20px;
+    }
+    .btn-back {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      color: #e2e8f0; border-radius: 10px; padding: 8px 16px; transition: all 0.2s;
+    }
+    .btn-back:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    .date-input {
+      background: rgba(255,255,255,0.06) !important;
+      border: 1px solid rgba(255,255,255,0.15) !important;
+      color: #e2e8f0 !important;
+      border-radius: 10px; padding: 8px 14px;
+    }
+    .date-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+
+    /* Students table */
+    .table-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden;
+    }
+    .table-card .card-header {
+      background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 22px; font-weight: 600; color: #e2e8f0;
+    }
+    .table { color: #cbd5e1; margin: 0; }
+    .table thead { background: rgba(102,126,234,0.15); }
+    .table thead th {
+      color: #a5b4fc; font-size: 0.78rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      border-color: rgba(255,255,255,0.08); padding: 14px 16px;
+    }
+    .table tbody td { border-color: rgba(255,255,255,0.06); padding: 12px 16px; font-size: 0.9rem; }
+    .table tbody tr { transition: background 0.15s; }
+    .table tbody tr:hover { background: rgba(255,255,255,0.04); }
+
+    /* Attendance radio buttons */
+    .att-radio { display: none; }
+    .att-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 20px; cursor: pointer;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.3px;
+      border: 1.5px solid transparent; transition: all 0.2s; user-select: none;
+    }
+    .att-present { border-color: rgba(52,211,153,0.3); color: #6ee7b7; background: rgba(52,211,153,0.08); }
+    .att-absent  { border-color: rgba(248,113,113,0.3); color: #fca5a5; background: rgba(248,113,113,0.08); }
+    .att-radio.present:checked ~ .att-badge.att-present {
+      background: rgba(52,211,153,0.25); border-color: #34d399; color: #34d399;
+      box-shadow: 0 0 10px rgba(52,211,153,0.3);
+    }
+    .att-radio.absent:checked ~ .att-badge.att-absent {
+      background: rgba(248,113,113,0.25); border-color: #f87171; color: #f87171;
+      box-shadow: 0 0 10px rgba(248,113,113,0.3);
+    }
+
+    .mark-all-bar {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 12px 20px;
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none; color: #fff; font-weight: 600;
+      padding: 12px 30px; border-radius: 12px; font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    .btn-save:hover {
+      transform: translateY(-2px); color: #fff;
+      box-shadow: 0 8px 25px rgba(102,126,234,0.5);
+    }
+
+    .sql-info {
+      background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 12px; padding: 16px 20px; font-size: 0.82rem; color: #6ee7b7;
+    }
+    .sql-info strong { color: #34d399; }
+
+    .toast-container { z-index: 9999; }
+    .toast-success {
+      background: rgba(16,185,129,0.9); border: 1px solid #34d399;
+      color: #fff; backdrop-filter: blur(10px);
+    }
+
+    .badge-code {
+      background: rgba(102,126,234,0.2); color: #a5b4fc;
+      border: 1px solid rgba(102,126,234,0.3);
+      border-radius: 6px; padding: 3px 8px; font-size: 0.78rem; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast -->
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="saveToast" class="toast toast-success align-items-center border-0" role="alert">
+      <div class="d-flex">
+        <div class="toast-body fw-600" id="toastMsg">✅ Attendance saved!</div>
+        <button type="button" class="btn-close btn-close-white ms-auto me-2" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fas fa-chalkboard-teacher me-2"></i>Teacher Portal</a>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <span class="user-info" id="navName"></span>
+        <button class="btn btn-logout btn-sm" onclick="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+    <!-- Subject selection -->
+    <div id="subjectSection">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h4 class="mb-1" style="color:#a5b4fc;">Your Subjects</h4>
+          <p class="text-muted mb-0" style="font-size:0.85rem;">
+            <i class="fas fa-database me-1"></i>SQL: INNER JOIN subjects ⟵ subject_teacher_mapping
+          </p>
+        </div>
+      </div>
+      <div id="subjectsList" class="row g-3">
+        <!-- loaded dynamically -->
+      </div>
+    </div>
+
+    <!-- Attendance marking -->
+    <div id="attendanceSection" class="d-none">
+
+      <!-- Header -->
+      <div class="section-header d-flex flex-wrap align-items-center gap-3">
+        <button class="btn btn-back" onclick="backToSubjects()">
+          <i class="fas fa-arrow-left me-2"></i>Subjects
+        </button>
+        <div class="flex-grow-1">
+          <h5 class="mb-0" id="currentSubjectName" style="color:#a5b4fc;"></h5>
+          <small class="text-muted" id="currentSubjectCode"></small>
+        </div>
+        <div>
+          <input type="date" id="attendanceDate" class="form-control date-input" onchange="loadStudents()">
+        </div>
+      </div>
+
+      <!-- Mark all bar -->
+      <div class="mark-all-bar mb-3 d-flex align-items-center gap-3 flex-wrap">
+        <small class="text-muted">Quick select:</small>
+        <button class="btn btn-sm" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3);border-radius:8px;"
+                onclick="markAll('Present')">
+          <i class="fas fa-check-circle me-1"></i>Mark All Present
+        </button>
+        <button class="btn btn-sm" style="background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3);border-radius:8px;"
+                onclick="markAll('Absent')">
+          <i class="fas fa-times-circle me-1"></i>Mark All Absent
+        </button>
+        <span class="ms-auto text-muted" style="font-size:0.8rem;" id="countLabel"></span>
+      </div>
+
+      <!-- Students table -->
+      <div class="table-card mb-4">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <span><i class="fas fa-users me-2" style="color:#667eea;"></i>Students</span>
+          <span class="badge-code" style="font-size:0.7rem;">LEFT JOIN Query</span>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th class="text-center">Attendance</th>
+              </tr>
+            </thead>
+            <tbody id="studentsList"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Save button -->
+      <div class="text-end mb-4">
+        <button class="btn btn-save" onclick="saveAttendance()" id="saveBtn">
+          <i class="fas fa-save me-2"></i>Save Attendance
+        </button>
+      </div>
+
+      <!-- SQL info -->
+      <div class="sql-info">
+        <strong><i class="fas fa-database me-2"></i>SQL Concepts on this page:</strong>
+        <ul class="mb-0 mt-2 ps-3">
+          <li><strong>INNER JOIN</strong> — Links subject_teacher_mapping with subjects table</li>
+          <li><strong>LEFT JOIN</strong> — Shows all students even if they have no attendance for this date</li>
+          <li><strong>BEGIN TRANSACTION / COMMIT</strong> — DELETE existing + INSERT new records atomically</li>
+          <li><strong>Prepared Statements</strong> — PDO :named parameters prevent SQL injection</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    // Auth guard
+    const session = DB.getSession();
+    if (!session || session.user_type !== 'teacher') {
+      window.location.href = 'index.html';
+    }
+    document.getElementById('navName').textContent = session.user_name;
+
+    let currentSubjectId   = null;
+    let currentSubjectName = '';
+
+    function logout() { DB.clearSession(); window.location.href = 'index.html'; }
+
+    // ─── Set today's date ───────────────────────────────────────
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('attendanceDate').value = today;
+
+    // ─── SQL DEMO: INNER JOIN — Load teacher subjects ───────────
+    function loadSubjects() {
+      const subjects = DB.getTeacherSubjects(session.user_id);
+      const el = document.getElementById('subjectsList');
+      if (!subjects.length) {
+        el.innerHTML = '<div class="col-12 text-center text-muted py-4">No subjects assigned.</div>';
+        return;
+      }
+      el.innerHTML = subjects.map(s => `
+        <div class="col-md-4">
+          <div class="subject-card" onclick="selectSubject(${s.subject_id}, '${s.subject_name}', '${s.subject_code}')">
+            <div class="code">${s.subject_code}</div>
+            <div class="name">${s.subject_name}</div>
+            <div class="meta"><i class="fas fa-layer-group me-1"></i>Sem ${s.semester} &nbsp;|&nbsp; ${s.credits} Credits</div>
+            <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectSubject(id, name, code) {
+      currentSubjectId   = id;
+      currentSubjectName = name;
+      document.getElementById('currentSubjectName').textContent = name;
+      document.getElementById('currentSubjectCode').textContent = code;
+      document.getElementById('subjectSection').classList.add('d-none');
+      document.getElementById('attendanceSection').classList.remove('d-none');
+      loadStudents();
+    }
+
+    function backToSubjects() {
+      document.getElementById('attendanceSection').classList.add('d-none');
+      document.getElementById('subjectSection').classList.remove('d-none');
+    }
+
+    // ─── SQL DEMO: LEFT JOIN — Load students with attendance ─────
+    function loadStudents() {
+      const date     = document.getElementById('attendanceDate').value;
+      const students = DB.getStudentsWithAttendance(currentSubjectId, date);
+      const tbody    = document.getElementById('studentsList');
+
+      if (!students.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">No students found.</td></tr>';
+        return;
+      }
+
+      document.getElementById('countLabel').textContent = students.length + ' students';
+
+      tbody.innerHTML = students.map(s => {
+        const isPresent = s.status === 'Present';
+        const isAbsent  = s.status === 'Absent';
+        return `<tr>
+          <td><span class="badge-code">${s.roll_number}</span></td>
+          <td>${s.name}</td>
+          <td style="color:#64748b;font-size:0.85rem;">${s.email}</td>
+          <td class="text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2">
+              <input type="radio" class="att-radio present" name="att_${s.student_id}"
+                     id="p_${s.student_id}" value="Present" ${isPresent ? 'checked' : ''}>
+              <label class="att-badge att-present" for="p_${s.student_id}">
+                <i class="fas fa-check me-1"></i>Present
+              </label>
+
+              <input type="radio" class="att-radio absent" name="att_${s.student_id}"
+                     id="a_${s.student_id}" value="Absent" ${isAbsent ? 'checked' : ''}>
+              <label class="att-badge att-absent" for="a_${s.student_id}">
+                <i class="fas fa-times me-1"></i>Absent
+              </label>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function markAll(status) {
+      document.querySelectorAll(`input[type="radio"][value="${status}"]`)
+        .forEach(r => { r.checked = true; });
+    }
+
+    // ─── SQL DEMO: Transaction — DELETE + INSERT ─────────────────
+    async function saveAttendance() {
+      const date    = document.getElementById('attendanceDate').value;
+      const records = [];
+
+      document.querySelectorAll('#studentsList tr').forEach(row => {
+        const radios = row.querySelectorAll('input[type="radio"]');
+        const name   = radios.length ? radios[0].name : null; // att_<student_id>
+        if (!name) return;
+        const studentId = parseInt(name.replace('att_', ''));
+        const checked   = row.querySelector(`input[name="${name}"]:checked`);
+        if (checked) records.push({ student_id: studentId, status: checked.value });
+      });
+
+      if (!records.length) {
+        alert('Please mark attendance for at least one student.');
+        return;
+      }
+
+      const btn = document.getElementById('saveBtn');
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving…';
+      btn.disabled  = true;
+
+      await new Promise(r => setTimeout(r, 500)); // simulate network
+
+      const count = DB.markAttendance(currentSubjectId, date, session.user_id, records);
+
+      btn.innerHTML = '<i class="fas fa-save me-2"></i>Save Attendance';
+      btn.disabled  = false;
+
+      document.getElementById('toastMsg').textContent = `✅ ${count} attendance records saved!`;
+      new bootstrap.Toast(document.getElementById('saveToast'), { delay: 3000 }).show();
+    }
+
+    // Init
+    loadSubjects();
+  </script>
+</body>
+</html>
