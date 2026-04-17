@@ -1,4 +1,4 @@
-# NSUT ICE Branch - Teacher Attendance Portal (SQLite)
+# NSUT ICE Branch -Attendance Portal (SQLite)
 
 A lightweight, Bootstrap-based attendance management system for demonstrating SQL operations using SQLite database.
 
